@@ -1,0 +1,9 @@
+package com.ahmete.repository;
+
+import com.ahmete.entity.Statistics;
+
+public class StatisticsRepository extends RepositoryManager<Statistics,Long> {
+	public StatisticsRepository() {
+		super(Statistics.class);
+	}
+}
