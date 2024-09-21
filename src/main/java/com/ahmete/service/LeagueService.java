@@ -15,4 +15,7 @@ public class LeagueService extends ServiceManager<League,Long> {
 		super(leagueRepository);
 		this.leagueRepository = leagueRepository;
 	}
+	
+ 
+	
 }

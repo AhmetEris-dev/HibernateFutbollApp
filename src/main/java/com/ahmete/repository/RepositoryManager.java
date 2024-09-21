@@ -5,17 +5,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class RepositoryManager<T,ID> implements ICrud<T,ID> {
+public abstract class RepositoryManager<T, ID> implements ICrud<T, ID> {
 	private final EntityManagerFactory emf;
 	private final Class<T> entityClass;
 	
@@ -23,6 +18,7 @@ public abstract class RepositoryManager<T,ID> implements ICrud<T,ID> {
 		this.emf = Persistence.createEntityManagerFactory("pu_hibernate");
 		this.entityClass = entityClass;
 	}
+	
 	protected EntityManager getEntityManager() {
 		return emf.createEntityManager();
 	}
@@ -53,14 +49,13 @@ public abstract class RepositoryManager<T,ID> implements ICrud<T,ID> {
 			if (tx != null && tx.isActive()) {
 				tx.rollback();
 			}
-			System.out.println("Save metodunda hata..."+e.getMessage());
+			System.out.println("Save metodunda hata..." + e.getMessage());
 		}
 		finally {
 			em.close();
 		}
 		return entity;
 	}
-	
 	
 	
 	@Override
@@ -80,7 +75,7 @@ public abstract class RepositoryManager<T,ID> implements ICrud<T,ID> {
 			if (tx != null && tx.isActive()) {
 				tx.rollback();
 			}
-			System.out.println("SaveAll metodunda hata..."+e.getMessage());
+			System.out.println("SaveAll metodunda hata..." + e.getMessage());
 		}
 		finally {
 			em.close();
@@ -110,7 +105,7 @@ public abstract class RepositoryManager<T,ID> implements ICrud<T,ID> {
 			if (tx != null && tx.isActive()) {
 				tx.rollback();
 			}
-			System.out.println("DeleteById metodunda hata..."+e.getMessage());
+			System.out.println("DeleteById metodunda hata..." + e.getMessage());
 			return false;
 		}
 		finally {
@@ -149,6 +144,29 @@ public abstract class RepositoryManager<T,ID> implements ICrud<T,ID> {
 		}
 	}
 	
+	@Override
+	public Optional<T> findTeamIdByName(String teamName) {
+		EntityManager em = getEntityManager();
+		try {
+			
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<T> cq = cb.createQuery(entityClass);
+			Root<T> root = cq.from(entityClass);
+			
+			cq.select(root).where(cb.equal(root.get("teamName"), teamName));
+			T singleResult = em.createQuery(cq).getSingleResult();
+			return Optional.ofNullable(singleResult);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return Optional.empty();
+		}
+		finally {
+			em.close();
+		}
+	}
+
+
 //	@Override
 //	public List<T> findByFieldNameAndValue(String fieldName, Object value) {
 //		EntityManager em = getEntityManager();

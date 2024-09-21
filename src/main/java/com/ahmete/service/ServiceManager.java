@@ -18,6 +18,7 @@ public abstract class ServiceManager<T,ID> implements ICrudService<T,ID> {
 	}
 	
 	@Override
+	      //List<Player>
 	public Iterable<T> saveAll(Iterable<T> entities) {
 		return repository.saveAll(entities);
 	}
@@ -40,6 +41,10 @@ public abstract class ServiceManager<T,ID> implements ICrudService<T,ID> {
 	@Override
 	public List<T> findAll() {
 		return repository.findAll();
+	}
+	
+	public Optional<T> findTeamIdByName(String teamName){
+		return repository.findTeamIdByName(teamName);
 	}
 	
 //	@Override

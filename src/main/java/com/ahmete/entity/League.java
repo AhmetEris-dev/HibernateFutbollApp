@@ -34,6 +34,6 @@ public class League extends BaseEntity {
 	private LocalDate startDate;
 	@ElementCollection
 	@Column(name="teamidlist")
-	private List<Integer> teamIDList;
+	private List<Long> teamIDList;
 	
 }
