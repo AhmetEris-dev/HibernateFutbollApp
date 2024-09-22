@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.Map;
 
 
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder

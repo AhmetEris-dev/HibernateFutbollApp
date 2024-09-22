@@ -1,5 +1,7 @@
 package com.ahmete.controller;
 
+import com.ahmete.dto.request.StadiumSaveRequestDto;
+import com.ahmete.dto.response.StadiumResponseDto;
 import com.ahmete.entity.League;
 import com.ahmete.entity.Stadium;
 import com.ahmete.service.StadiumService;
@@ -10,19 +12,19 @@ import java.util.Optional;
 public class StadiumController {
 	private final StadiumService stadiumService;
 	
-	public StadiumController(StadiumService stadiumService) {
-		this.stadiumService = stadiumService;
+	public StadiumController() {
+		this.stadiumService = new StadiumService();
 	}
 	
-	public Stadium save(Stadium stadium) {
+	public Optional<StadiumResponseDto> save(StadiumSaveRequestDto dto) {
 		try {
 			System.out.println("Controller Stadium başarıyla kaydedildi.");
-			return stadiumService.save(stadium);
+			return stadiumService.save(dto);
 			
 		} catch (Exception e) {
 			System.out.println("Controller Stadium kaydedilirken hata oluştu: " + e.getMessage());
 		}
-		return stadium;
+		return Optional.empty();
 	}
 	
 	public Iterable<Stadium> saveAll(List<Stadium> stadiumList) {

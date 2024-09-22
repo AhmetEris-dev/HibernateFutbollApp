@@ -43,9 +43,7 @@ public abstract class ServiceManager<T,ID> implements ICrudService<T,ID> {
 		return repository.findAll();
 	}
 	
-	public Optional<T> findTeamIdByName(String teamName){
-		return repository.findTeamIdByName(teamName);
-	}
+	
 	
 //	@Override
 //	public List<T> findByFieldNameAndValue(String fieldName, Object value) {

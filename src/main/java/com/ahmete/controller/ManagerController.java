@@ -1,5 +1,7 @@
 package com.ahmete.controller;
 
+import com.ahmete.dto.request.ManagerSaveRequestDto;
+import com.ahmete.dto.response.ManagerResponseDto;
 import com.ahmete.entity.League;
 import com.ahmete.entity.Manager;
 import com.ahmete.service.ICrudService;
@@ -12,19 +14,19 @@ import java.util.Optional;
 public class ManagerController {
 	private final ManagerService managerService;
 	
-	public ManagerController(ManagerService managerService) {
-		this.managerService = managerService;
+	public ManagerController() {
+		this.managerService = new ManagerService();
 	}
 	
-	public Manager save(Manager manager) {
+	public Optional<ManagerResponseDto> save(ManagerSaveRequestDto dto) {
 		try {
 			System.out.println("Controller Manager başarıyla kaydedildi.");
-			return managerService.save(manager);
+			return managerService.save(dto);
 			
 		} catch (Exception e) {
 			System.out.println("Controller Manager kaydedilirken hata oluştu: " + e.getMessage());
 		}
-		return manager;
+		return Optional.empty();
 	}
 	
 	public Iterable<Manager> saveAll(List<Manager> managerList) {

@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 
 
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder

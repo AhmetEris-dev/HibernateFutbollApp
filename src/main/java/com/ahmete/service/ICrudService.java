@@ -10,7 +10,7 @@ public interface ICrudService<T,ID> {
 	Optional<T> findById(ID id);
 	Boolean existById(ID id);
 	List<T> findAll();
-	Optional<T> findTeamIdByName(String teamName);
+
 	
 //	List<T> findByFieldNameAndValue(String fieldName, Object value);
 //	List<T> findByFilledFields(T entity);

@@ -144,27 +144,7 @@ public abstract class RepositoryManager<T, ID> implements ICrud<T, ID> {
 		}
 	}
 	
-	@Override
-	public Optional<T> findTeamIdByName(String teamName) {
-		EntityManager em = getEntityManager();
-		try {
-			
-			CriteriaBuilder cb = em.getCriteriaBuilder();
-			CriteriaQuery<T> cq = cb.createQuery(entityClass);
-			Root<T> root = cq.from(entityClass);
-			
-			cq.select(root).where(cb.equal(root.get("teamName"), teamName));
-			T singleResult = em.createQuery(cq).getSingleResult();
-			return Optional.ofNullable(singleResult);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return Optional.empty();
-		}
-		finally {
-			em.close();
-		}
-	}
+	
 
 
 //	@Override

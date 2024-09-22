@@ -16,7 +16,7 @@ public interface ICrud<T,ID> {
 	
 	List<T> findAll();
 	
-	Optional<T> findTeamIdByName(String teamName);
+	
 
 
 //	List<T> findByFieldNameAndValue(String fieldName,Object value);

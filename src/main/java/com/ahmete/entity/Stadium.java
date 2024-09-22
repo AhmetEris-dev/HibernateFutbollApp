@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
@@ -19,6 +20,5 @@ public class Stadium extends BaseEntity {
 	private String stadiumName;
 	private String location;
 	private Integer capacity;
-	
 	
 }

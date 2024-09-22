@@ -1,5 +1,9 @@
 package com.ahmete.controller;
 
+import com.ahmete.dto.request.LeagueSaveRequestDto;
+import com.ahmete.dto.request.TeamSaveRequestDto;
+import com.ahmete.dto.response.LeagueResponseDto;
+import com.ahmete.dto.response.TeamResponseDto;
 import com.ahmete.entity.League;
 import com.ahmete.service.ICrudService;
 import com.ahmete.service.LeagueService;
@@ -10,19 +14,20 @@ import java.util.Optional;
 public class LeagueController {
 	private final LeagueService leagueService;
 	
-	public LeagueController(LeagueService leagueService) {
-		this.leagueService = leagueService;
+	public LeagueController() {
+		this.leagueService = new LeagueService();
 	}
 	
-	public League save(League league) {
+	
+	public Optional<LeagueResponseDto> save(LeagueSaveRequestDto dto) {
 		try {
 			System.out.println("Controller League başarıyla kaydedildi.");
-			return leagueService.save(league);
+			return leagueService.save(dto);
 			
 		} catch (Exception e) {
 			System.out.println("Controller League kaydedilirken hata oluştu: " + e.getMessage());
 		}
-		return league;
+		return Optional.empty();
 	}
 	
 	public Iterable<League> saveAll(List<League> leagueList) {
