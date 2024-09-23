@@ -30,9 +30,9 @@ import java.util.Optional;
 public class Runner {
 	public static void main(String[] args) {
 	ControllerModel controllerModel =  ControllerModel.getInstance();
+	
 		DataGenerator dataGenerator = new DataGenerator();
 //		dataGenerator.createGenerateData();
-
 
 //		MainGUI.startApplication();
 		

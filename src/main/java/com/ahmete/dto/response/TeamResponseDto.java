@@ -4,7 +4,7 @@ import com.ahmete.enums.EColours;
 
 public class TeamResponseDto {
 	
-	private String  stadiumName;
+	private String stadiumName;
 	private String teamName;
 	private String presidentName;
 	private String foundationDate;
@@ -49,6 +49,8 @@ public class TeamResponseDto {
 	public void setColour(EColours colour) {
 		this.colour = colour;
 	}
+	
+	
 	
 	@Override
 	public String toString() {

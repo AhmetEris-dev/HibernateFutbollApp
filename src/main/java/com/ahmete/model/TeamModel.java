@@ -1,5 +1,7 @@
 package com.ahmete.model;
 
+import com.ahmete.entity.Player;
+import com.ahmete.entity.Stadium;
 import com.ahmete.entity.Team;
 import com.ahmete.enums.EColours;
 
@@ -10,17 +12,19 @@ public class TeamModel {
 	private final ControllerModel controllerModel=ControllerModel.getInstance();
 	
 	private Long id;
-	private Long stadiumID;
+	private Stadium stadium; // bu şekilde tutabilir
 	private String teamName;
 	private String presidentName;
 	private String foundationDate;
 	private EColours colour;
+	private List<Player> playerList;
 	
 	public TeamModel() {
 	}
 	
 	//! Alperen hocaya sor , bu metotun yeri doğrumu
 	
+	//TODO bunun team entitysinde olması gerekli yeri yanlış
 	public void takimlerinOzetBilgileriniGoruntule() {
 		List<Team> teamList = controllerModel.teamController.findAll();
 		

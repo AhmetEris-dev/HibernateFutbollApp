@@ -40,6 +40,8 @@ public class ManagerRepository extends RepositoryManager<Manager,Long> {
 		}
 	}
 	
+	//TODO JOIN kullanmak gerekli 2 tablo da calışman gerekli
+	//! teamRepository de olması gerekli
 	public Optional<Long> findTeamIdByManagerId(Long managerId) {
 		EntityManager em = getEntityManager();
 		
