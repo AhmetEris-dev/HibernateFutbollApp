@@ -6,6 +6,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
+import java.util.List;
 import java.util.Optional;
 
 public class TeamRepository extends RepositoryManager<Team, Long> {
@@ -29,6 +30,25 @@ public class TeamRepository extends RepositoryManager<Team, Long> {
 		catch (Exception e) {
 			e.printStackTrace();
 			return Optional.empty();
+		}
+		finally {
+			em.close();
+		}
+	}
+	
+	public List<Team> ListAllByNameContainsValue(String value) {
+		EntityManager em = getEntityManager();
+		
+		try {
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<Team> cq = cb.createQuery(Team.class);
+			Root<Team> root = cq.from(Team.class);                           //spor
+			cq.select(root).where(cb.like(cb.lower(root.get("teamName")),("%" + value.toLowerCase() + "%")));
+			return em.createQuery(cq).getResultList();
+		}
+		catch (Exception e) {
+			System.out.println("Repository: ListAllByNameContainsValue hata oluştu: "+e.getMessage());
+			return null;
 		}
 		finally {
 			em.close();

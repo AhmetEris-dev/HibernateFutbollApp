@@ -7,6 +7,7 @@ import com.ahmete.entity.Team;
 import com.ahmete.repository.ICrud;
 import com.ahmete.repository.PlayerRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public class PlayerService extends ServiceManager<Player,Long> {
@@ -53,6 +54,16 @@ public class PlayerService extends ServiceManager<Player,Long> {
 			System.out.println("Player kaydedilirken hata oluştur "+e.getMessage());
 		}
 		return Optional.of(responseDto);
+	}
+	
+	public List<Player> findPlayerByTeamID(Long teamID){
+		try {
+			return playerRepository.findPlayerByTeamID(teamID);
+		}
+		catch (Exception e) {
+			System.out.println("Service: ListAllByNameContainsValue hata oluştu: "+e.getMessage());
+		}
+		return null;
 	}
 
 }

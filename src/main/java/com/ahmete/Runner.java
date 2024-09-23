@@ -11,6 +11,7 @@ import com.ahmete.enums.ECluster;
 import com.ahmete.enums.EColours;
 import com.ahmete.enums.EPosition;
 import com.ahmete.enums.ERegion;
+import com.ahmete.gui.MainGUI;
 import com.ahmete.repository.LeagueRepository;
 import com.ahmete.repository.PlayerRepository;
 import com.ahmete.repository.TeamRepository;
@@ -22,7 +23,9 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+
 
 public class Runner {
 	public static void main(String[] args) {
@@ -34,31 +37,20 @@ public class Runner {
 		LeagueController leagueController = new LeagueController();
 		DataGenerator dataGenerator = new DataGenerator();
 		
-		dataGenerator.createGenerateData();
-
-
-//
-//      PlayerSaveRequestDto dto = new PlayerSaveRequestDto("Fenerbahçe", "Ahmet", "Güler", LocalDate.of(1995,5,15), EPosition.MIDFIELD);
-//		Optional<PlayerResponseDto> responseDto = playerController.save(dto);
-//
-//		ManagerSaveRequestDto dto1 = new ManagerSaveRequestDto("Galatasaray","Kemal","Özogli","12345",LocalDate.of(1997,5,18));
-//		Optional<ManagerResponseDto> managerResponseDto = managerController.save(dto1);
-//		System.out.println(managerResponseDto);
-//
-//
-//		StadiumSaveRequestDto dto2 = new StadiumSaveRequestDto("Ali Samiyen","İstanbul",50000);
-//		Optional<StadiumResponseDto> stadiumResponseDto = stadiumController.save(dto2);
-//		System.out.println(stadiumResponseDto);
-//
-//		TeamSaveRequestDto dto3 = new TeamSaveRequestDto("Ali Samiyen", "Alper Spor", "Alper Güler", "2005", EColours.BLACK_RED);
-//		Optional<TeamResponseDto> teamResponseDto = teamController.save(dto3);
-//		System.out.println(teamResponseDto);
-//
-//		LeagueSaveRequestDto
-//				dto4 = new LeagueSaveRequestDto("Mehtor League", "Season 25", ECluster.TRENDYOL_SUPER_LIG, ERegion.TURKEY, LocalDate.of(2025, 3, 10));
-//		Optional<LeagueResponseDto> leagueResponseDto = leagueController.save(dto4);
-//		System.out.println(leagueResponseDto);
-
+//		dataGenerator.createGenerateData();
+		
+//		MainGUI.startApplication();
+		
+		PlayerRepository playerRepository = new PlayerRepository();
+		TeamRepository teamRepository = new TeamRepository();
+		
+//		List<Player> playerByTeamID = playerController.findPlayerByTeamID(3L);
+//		playerByTeamID.forEach(System.out::println);
+		
+		List<Team> teamList = teamRepository.ListAllByNameContainsValue("galaTasaRay");
+		teamList.forEach(System.out::println);
+		
+		
 	}
 	
 }

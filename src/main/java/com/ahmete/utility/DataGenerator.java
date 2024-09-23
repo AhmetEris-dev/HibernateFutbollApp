@@ -83,7 +83,7 @@ public class DataGenerator {
 		int day = 1 + random.nextInt(28); // Gün sayısını basit tutalım
 		return LocalDate.of(year, month, day);
 	}
-	
+	//TODO SONRADAN BAKILACAK 4 TANE KALECİ URETİYOR
 	private EPosition generateRandomPosition() {
 		EPosition[] positions = EPosition.values();
 		return positions[random.nextInt(positions.length)];

@@ -12,6 +12,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
+import java.util.List;
 import java.util.Optional;
 
 public class TeamService extends ServiceManager<Team,Long>{
@@ -61,6 +62,10 @@ public class TeamService extends ServiceManager<Team,Long>{
 			System.out.println("Service: Team kaydedilirken hata oluştu."+ e.getMessage());
 		}
 		return Optional.of(teamResponseDto);
+	}
+	
+	public List<Team> ListAllByNameContainsValue(String value){
+		return teamRepository.ListAllByNameContainsValue(value);
 	}
 
 }

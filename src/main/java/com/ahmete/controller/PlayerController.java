@@ -85,4 +85,8 @@ public class PlayerController {
 		}
 		return playerList;
 	}
+	
+	public List<Player> findPlayerByTeamID(Long teamID){
+		return playerService.findPlayerByTeamID(teamID);
+	}
 }
