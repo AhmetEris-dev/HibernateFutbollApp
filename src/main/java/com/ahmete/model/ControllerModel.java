@@ -4,8 +4,9 @@ import com.ahmete.controller.*;
 
 
 public class ControllerModel {
-	private  static  final ControllerModel INSTANCE = new ControllerModel();
+	private static final ControllerModel INSTANCE = new ControllerModel();
 	
+	public final FixtureController fixtureController = new FixtureController();
 	public final PlayerController playerController = new PlayerController();
 	public final LeagueController leagueController = new LeagueController();
 	public final ManagerController managerController = new ManagerController();

@@ -32,5 +32,7 @@ public class Player extends BaseEntity {
 	private EPosition position;
 	
 	
-	
+	public String toStringOzet() {
+		return "Player{"  +  ", name='" + getName() + '\'' + ", surname='" + getSurname() + '\'' + ", birthday=" + getBirthday()  + ", position=" + getPosition() + '}';
+	}
 }

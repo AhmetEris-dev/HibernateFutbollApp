@@ -67,5 +67,9 @@ public class TeamService extends ServiceManager<Team,Long>{
 	public List<Team> ListAllByNameContainsValue(String value){
 		return teamRepository.ListAllByNameContainsValue(value);
 	}
+	
+	public List<Team> getAllTeams(){
+		return teamRepository.findAll();
+	}
 
 }

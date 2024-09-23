@@ -8,6 +8,7 @@ import com.ahmete.enums.ERegion;
 import com.ahmete.repository.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -19,6 +20,8 @@ public class DataGenerator {
 	ManagerRepository managerRepository;
 	StadiumRepository stadiumRepository;
 	Random random = new Random();
+	
+
 	
 	public DataGenerator() {
 		this.playerRepository =new PlayerRepository();
@@ -39,64 +42,261 @@ public class DataGenerator {
 	}
 	
 	private void createPlayers() {
-		for (int teamId = 1; teamId <= 19; teamId++) { // 19 takım
-			for (int playerIndex = 0; playerIndex < 15; playerIndex++) { // Her takımda 15 oyuncu
-				Player player = Player.builder()
-				                      .name(generateRandomName())
-				                      .surname(generateRandomSurname())
-				                      .birthday(generateRandomBirthday())
-				                      .position(generateRandomPosition())
-				                      .contractFee(generateRandomContractFee())
-				                      .teamID((long) teamId)
-				                      .build();
-				playerRepository.save(player);
-			}
+		// Galatasaray kadrosu için oyuncuları ekleyelim
+		List<Player> players = new ArrayList<>();
+		
+		// Kaleciler
+		players.add(Player.builder()
+		                  .name("Fernando")
+		                  .surname("Muslera")
+		                  .birthday(LocalDate.of(1986, 6, 16))
+		                  .position(EPosition.GOALKEEPER)
+		                  .contractFee(1400000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Günay")
+		                  .surname("Güvenç")
+		                  .birthday(LocalDate.of(1991, 6, 25))
+		                  .position(EPosition.GOALKEEPER)
+		                  .contractFee(600000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Batuhan")
+		                  .surname("Şen")
+		                  .birthday(LocalDate.of(1999, 2, 3))
+		                  .position(EPosition.GOALKEEPER)
+		                  .contractFee(425000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		// Defans oyuncuları
+		players.add(Player.builder()
+		                  .name("Davinson")
+		                  .surname("Sánchez")
+		                  .birthday(LocalDate.of(1996, 6, 12))
+		                  .position(EPosition.DEFENCE)
+		                  .contractFee(18000000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Victor")
+		                  .surname("Nelsson")
+		                  .birthday(LocalDate.of(1998, 10, 14))
+		                  .position(EPosition.DEFENCE)
+		                  .contractFee(17000000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Abdülkerim")
+		                  .surname("Bardakcı")
+		                  .birthday(LocalDate.of(1994, 9, 7))
+		                  .position(EPosition.DEFENCE)
+		                  .contractFee(9000000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Kaan")
+		                  .surname("Ayhan")
+		                  .birthday(LocalDate.of(1994, 11, 10))
+		                  .position(EPosition.DEFENCE)
+		                  .contractFee(4700000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Metehan")
+		                  .surname("Baltacı")
+		                  .birthday(LocalDate.of(2002, 11, 3))
+		                  .position(EPosition.DEFENCE)
+		                  .contractFee(1000000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Ali")
+		                  .surname("Yeşilyurt")
+		                  .birthday(LocalDate.of(2005, 7, 30))
+		                  .position(EPosition.DEFENCE)
+		                  .contractFee(75000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Ismail")
+		                  .surname("Jakobs")
+		                  .birthday(LocalDate.of(1999, 8, 17))
+		                  .position(EPosition.DEFENCE)
+		                  .contractFee(8000000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Elias")
+		                  .surname("Jelert")
+		                  .birthday(LocalDate.of(2003, 6, 12))
+		                  .position(EPosition.DEFENCE)
+		                  .contractFee(5500000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		// Orta saha oyuncuları
+		players.add(Player.builder()
+		                  .name("Lucas")
+		                  .surname("Torreira")
+		                  .birthday(LocalDate.of(1996, 2, 11))
+		                  .position(EPosition.MIDFIELD)
+		                  .contractFee(15000000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Efe")
+		                  .surname("Akman")
+		                  .birthday(LocalDate.of(2006, 3, 20))
+		                  .position(EPosition.MIDFIELD)
+		                  .contractFee(500000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Gabriel")
+		                  .surname("Sara")
+		                  .birthday(LocalDate.of(1999, 6, 26))
+		                  .position(EPosition.MIDFIELD)
+		                  .contractFee(18000000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Kerem")
+		                  .surname("Demirbay")
+		                  .birthday(LocalDate.of(1993, 7, 3))
+		                  .position(EPosition.MIDFIELD)
+		                  .contractFee(4800000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Berkan")
+		                  .surname("Kutlu")
+		                  .birthday(LocalDate.of(1998, 1, 25))
+		                  .position(EPosition.MIDFIELD)
+		                  .contractFee(3800000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Eyüp")
+		                  .surname("Aydın")
+		                  .birthday(LocalDate.of(2004, 8, 2))
+		                  .position(EPosition.MIDFIELD)
+		                  .contractFee(1300000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Gökdeniz")
+		                  .surname("Gürpüz")
+		                  .birthday(LocalDate.of(2006, 2, 25))
+		                  .position(EPosition.MIDFIELD)
+		                  .contractFee(300000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		// Forvet oyuncuları
+		players.add(Player.builder()
+		                  .name("Barış Alper")
+		                  .surname("Yılmaz")
+		                  .birthday(LocalDate.of(2000, 5, 23))
+		                  .position(EPosition.OFFENCE)
+		                  .contractFee(20000000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Roland")
+		                  .surname("Sallai")
+		                  .birthday(LocalDate.of(1997, 5, 22))
+		                  .position(EPosition.OFFENCE)
+		                  .contractFee(15000000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Hakim")
+		                  .surname("Ziyech")
+		                  .birthday(LocalDate.of(1993, 3, 19))
+		                  .position(EPosition.OFFENCE)
+		                  .contractFee(9000000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Yunus")
+		                  .surname("Akgün")
+		                  .birthday(LocalDate.of(2000, 7, 10))
+		                  .position(EPosition.OFFENCE)
+		                  .contractFee(5000000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Yusuf")
+		                  .surname("Demir")
+		                  .birthday(LocalDate.of(2003, 6, 2))
+		                  .position(EPosition.OFFENCE)
+		                  .contractFee(2700000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Dries")
+		                  .surname("Mertens")
+		                  .birthday(LocalDate.of(1987, 5, 6))
+		                  .position(EPosition.OFFENCE)
+		                  .contractFee(1800000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Mauro")
+		                  .surname("Icardi")
+		                  .birthday(LocalDate.of(1993, 2, 19))
+		                  .position(EPosition.OFFENCE)
+		                  .contractFee(17000000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Victor")
+		                  .surname("Osimhen")
+		                  .birthday(LocalDate.of(1998, 12, 29))
+		                  .position(EPosition.OFFENCE)
+		                  .contractFee(100000000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		players.add(Player.builder()
+		                  .name("Michy")
+		                  .surname("Batshuayi")
+		                  .birthday(LocalDate.of(1993, 10, 2))
+		                  .position(EPosition.OFFENCE)
+		                  .contractFee(8500000L)
+		                  .teamID(1L)
+		                  .build());
+		
+		// Tüm oyuncuları veritabanına kaydedelim
+		for (Player player : players) {
+			playerRepository.save(player);
 		}
 	}
-	
-	private String generateRandomName() {
-		String[] names = {
-				"Liam", "Noah", "Oliver", "Elijah", "James", "William", "Benjamin", "Lucas", "Henry", "Alexander",
-				"Michael", "Daniel", "Matthew", "Jackson", "Aiden", "Logan", "Jackson", "Sebastian", "Owen", "Caleb",
-				"Jack", "Luke", "Levi", "Isaac", "Gabriel", "Anthony", "Dylan", "Wyatt", "Mason", "Julian",
-				"Grayson", "Hudson", "Samuel", "David", "Joseph", "Carter", "Cameron", "Eli", "Aaron", "Isaiah",
-				"Asher", "Charles", "Thomas", "Christopher", "Joshua", "Andrew", "Christian", "Gavin", "Hunter", "Isaiah"
-		};
-		return names[random.nextInt(names.length)];
-	}
-	
-	
-	private String generateRandomSurname() {
-		String[] surnames = {
-				"Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez",
-				"Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin",
-				"Lee", "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark", "Ramirez", "Lewis", "Robinson",
-				"Walker", "Young", "Allen", "King", "Wright", "Scott", "Torres", "Nguyen", "Hill", "Flores",
-				"Green", "Adams", "Nelson", "Baker", "Hall", "Rivera", "Campbell", "Mitchell", "Carter", "Roberts"
-		};
-		return surnames[random.nextInt(surnames.length)];
-	}
-	
-	private LocalDate generateRandomBirthday() {
-		int year = 1990 + random.nextInt(15); // 1990-2005 arası
-		int month = 1 + random.nextInt(12);
-		int day = 1 + random.nextInt(28); // Gün sayısını basit tutalım
-		return LocalDate.of(year, month, day);
-	}
-	//TODO SONRADAN BAKILACAK 4 TANE KALECİ URETİYOR
-	private EPosition generateRandomPosition() {
-		EPosition[] positions = EPosition.values();
-		return positions[random.nextInt(positions.length)];
-	}
-	
-	private Long generateRandomContractFee() {
-		return 100000L + (long) (random.nextDouble() * 900000); // 100,000 - 1,000,000 arası
-	}
-	
-	private Long generateRandomTeamID() {
-		return 1L + random.nextInt(19); // 1-10 arası takım ID'leri
-	}
-	
 	
 	
 	private void createManagers(){

@@ -26,7 +26,7 @@ private final static Scanner scanner = new Scanner(System.in);
 		System.out.println("3- Musabaka Islemleri");
 		System.out.println("4- ");
 		System.out.println("0- Cikis");
-		System.out.println("Secimiz: ");
+		System.out.print("Secimiz: ");
 		int opt = scanner.nextInt();
 		scanner.nextLine();
 		return opt;
@@ -34,10 +34,10 @@ private final static Scanner scanner = new Scanner(System.in);
 
 	private static int futbolAppMenuOpsiyonlari(int opt) {
 		switch (opt) {
-//			case 1: {
-//				MenajerModule.menajerModule(databaseModel);
-//				break;
-//			}
+			case 1: {
+				ManagerGUI.menajerModule(controllerModel);
+				break;
+			}
 			case 2: {
 				TeamGUI.teamGui(controllerModel);
 				break;

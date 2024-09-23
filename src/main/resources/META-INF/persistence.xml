@@ -13,6 +13,7 @@
         <class>com.ahmete.entity.Stadium</class>
         <class>com.ahmete.entity.Statistics</class>
         <class>com.ahmete.entity.Team</class>
+        <class>com.ahmete.entity.Fixture</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver"

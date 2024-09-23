@@ -86,4 +86,11 @@ public class ManagerController {
 		}
 		return managerList;
 	}
+	public Optional<Manager> findManagerByIdAndPassword(Long id, String password){
+		return managerService.findManagerByIdAndPassword(id, password);
+	}
+	
+	public Optional<Long> findTeamIdByManagerId(Long managerId){
+		return managerService.findTeamIdByManagerId(managerId);
+	}
 }
