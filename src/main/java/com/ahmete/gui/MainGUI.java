@@ -23,8 +23,7 @@ private final static Scanner scanner = new Scanner(System.in);
 		System.out.println("### Futbol App Ana Menu ###");
 		System.out.println("1- Menajer Islemleri");
 		System.out.println("2- Takim Islemleri");
-		System.out.println("3- Musabaka Islemleri");
-		System.out.println("4- ");
+		System.out.println("3- Match Islemleri");
 		System.out.println("0- Cikis");
 		System.out.print("Secimiz: ");
 		int opt = scanner.nextInt();
@@ -42,12 +41,8 @@ private final static Scanner scanner = new Scanner(System.in);
 				TeamGUI.teamGui(controllerModel);
 				break;
 			}
-//			case 3:{
-//				MusabakaModule.musabakaModule(databaseModel);
-//			}
-			case 4:{
-
-				break;
+			case 3:{
+				MatchGUI.matchGui(controllerModel);
 			}
 			case 0: {
 				System.out.println("FutbolApp kapatiliyor...");

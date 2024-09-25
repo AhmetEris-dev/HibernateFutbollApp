@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,8 +21,9 @@ public class Fixture {
 	private Long id;
 	@Column(name="league_id")
 	private Long leagueID;
-	@Column(name="match_id")
-	private Long matchID;
+	@ElementCollection
+	@Column(name="match_ids")
+	private List<Long> matchIDs;
 	@Temporal(TemporalType.DATE)
 	@Column(name="startdate")
 	private LocalDate startDate;

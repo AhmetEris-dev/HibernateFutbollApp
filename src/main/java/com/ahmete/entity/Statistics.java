@@ -19,22 +19,23 @@ public class Statistics extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Integer wins;
-	private Integer losses;
-	private Integer draws;
 	@Column(name="goalsscored")
-	private Integer goalsScored;
+	private Integer goalsScored = 0;
 	@Column(name="goalsconceded")
-	private Integer goalsConceded;
+	private Integer goalsConceded = 0;
+	private Integer wins = 0; // Başlangıç değeri
+	private Integer losses = 0; // Başlangıç değeri
+	private Integer draws = 0; // Başlangıç değeri
+	
+	public void addWin() {
+		wins++;
+	}
 	
 	
 	public int getGoalDifference() {
 		return goalsScored - goalsConceded;
 	}
 	
-	public void addWin() {
-		this.wins++;
-	}
 	
 	public void addDraw() {
 		this.draws++;

@@ -18,24 +18,27 @@ import com.ahmete.repository.TeamRepository;
 import com.ahmete.service.LeagueService;
 import com.ahmete.service.PlayerService;
 import com.ahmete.utility.DataGenerator;
+import com.ahmete.utility.FixtureFunction.FixtureGenerator;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Runner {
 	public static void main(String[] args) {
-	ControllerModel controllerModel =  ControllerModel.getInstance();
-	
+		ControllerModel controllerModel = ControllerModel.getInstance();
+		TeamRepository teamRepository = new TeamRepository();
 		DataGenerator dataGenerator = new DataGenerator();
 //		dataGenerator.createGenerateData();
-
-//		MainGUI.startApplication();
+		MainGUI.startApplication();
 		
+
+	
+	
 	}
 	
-}
+	}

@@ -22,8 +22,7 @@ public class TeamModel {
 	public TeamModel() {
 	}
 	
-	//! Alperen hocaya sor , bu metotun yeri doğrumu
-	
+
 	//TODO bunun team entitysinde olması gerekli yeri yanlış
 	public void takimlerinOzetBilgileriniGoruntule() {
 		List<Team> teamList = controllerModel.teamController.findAll();

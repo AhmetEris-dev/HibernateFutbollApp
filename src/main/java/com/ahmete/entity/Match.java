@@ -38,6 +38,19 @@ public class Match extends BaseEntity {
 	private LocalDate matchDate;
 	@ElementCollection
 	@Column(name="teamidtoname")
-	private Map<Integer, String> teamIDtoName;
-
+	private Map<Long, String> teamIDtoName;
+	
+	
+	public Match(Long homeTeam, Long awayTeam, Map<Long, String> teamIDtoName) {
+		 this.homeTeamID = homeTeam;
+		 this.awayTeamID = awayTeam;
+		 this.teamIDtoName = teamIDtoName;
+	}
+	
+	public String toStringFikstur() {
+		if (homeTeamID == -1 || awayTeamID == -1) {
+			return "BAY VS BAY, Tarih: " + matchDate; // Bay durumunu belirt
+		}
+		return teamIDtoName.get(homeTeamID) + " VS " + teamIDtoName.get(awayTeamID) + ", Tarih: " + matchDate;
+	}
 }

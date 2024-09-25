@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class ManagerGUI {
+	
 	private static ControllerModel controllerModel;
 	private static Optional<Manager> activeManager = Optional.empty();  // aktif menajer bilgisini burada tutuyoruz
 	private static final Scanner scanner = new Scanner(System.in);
@@ -19,8 +20,7 @@ public class ManagerGUI {
 
 		int opt;
 		do {
-
-
+			
 			opt =menajerGirisMenuOpsiyonlari(menajerGirisMenu());
 		} while (opt != 0);
 	}
@@ -131,6 +131,7 @@ public class ManagerGUI {
 		teamModel.takimlerinOzetBilgileriniGoruntule();
 	}
 
+	//! CALIŞMIYOR
 	private static void kulubumunDetaylariniGoruntule() {
 
 		if (activeManager.isEmpty()) {
