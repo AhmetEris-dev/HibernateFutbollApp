@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 
@@ -36,21 +37,14 @@ public class Match extends BaseEntity {
 	@Temporal(TemporalType.DATE)
 	@Column(name="matchdate")
 	private LocalDate matchDate;
-	@ElementCollection
-	@Column(name="teamidtoname")
-	private Map<Long, String> teamIDtoName;
+	@Column(name="fixture_id")
+	private Long fixtureID;
 	
-	
-	public Match(Long homeTeam, Long awayTeam, Map<Long, String> teamIDtoName) {
-		 this.homeTeamID = homeTeam;
-		 this.awayTeamID = awayTeam;
-		 this.teamIDtoName = teamIDtoName;
-	}
-	
-	public String toStringFikstur() {
-		if (homeTeamID == -1 || awayTeamID == -1) {
-			return "BAY VS BAY, Tarih: " + matchDate; // Bay durumunu belirt
-		}
-		return teamIDtoName.get(homeTeamID) + " VS " + teamIDtoName.get(awayTeamID) + ", Tarih: " + matchDate;
+	public String toString() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		return "Maç ID: " + id + ", " +
+				"Ev Sahibi Takım: " + homeTeamID + ", " +
+				"Deplasman Takımı: " + awayTeamID + ", " +
+				"Tarih: " + matchDate.format(formatter);
 	}
 }

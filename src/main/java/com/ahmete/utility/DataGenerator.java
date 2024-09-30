@@ -6,10 +6,12 @@ import com.ahmete.enums.EColours;
 import com.ahmete.enums.EPosition;
 import com.ahmete.enums.ERegion;
 import com.ahmete.repository.*;
+import com.ahmete.utility.FixtureFunction.FixtureGenerator;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class DataGenerator {
@@ -18,6 +20,7 @@ public class DataGenerator {
 	LeagueRepository leagueRepository;
 	ManagerRepository managerRepository;
 	StadiumRepository stadiumRepository;
+
 	
 	
 	public DataGenerator() {
@@ -26,6 +29,7 @@ public class DataGenerator {
 		this.leagueRepository = new LeagueRepository();
 		this.managerRepository = new ManagerRepository();
 		this.stadiumRepository = new StadiumRepository();
+		
 	}
 	
 	public void createGenerateData() {
@@ -35,8 +39,8 @@ public class DataGenerator {
 		createStadium();
 		createLeague();
 		
-		
 	}
+	
 	
 	private void createPlayers() {
 		
@@ -1871,45 +1875,44 @@ public class DataGenerator {
 		List<Manager> managerList = new ArrayList<>();
 		final String sifre = "12345678";
 		
-		managerList.add(Manager.builder().teamID(1L).managerName("Okan").managerSurname("Buruk").managerPassword(sifre).dateOfBirth(LocalDate.of(1974, 6, 10)).build());
 		
-		managerList.add(Manager.builder().teamID(2L).managerName("José").managerSurname("Mourinho").managerPassword(sifre).dateOfBirth(LocalDate.of(1963, 1, 26)).build());
+		managerList.add(Manager.builder().teamID(1L).managerName("Okan").managerSurname("Buruk").userName("OkanBuruk").managerPassword(sifre).dateOfBirth(LocalDate.of(1974, 6, 10)).build());
 		
-		managerList.add(Manager.builder().teamID(3L).managerName("Giovanni").managerSurname("van Bronckhorst").managerPassword(sifre).dateOfBirth(LocalDate.of(1975, 2, 5)).build());
+		managerList.add(Manager.builder().teamID(2L).managerName("Jose").managerSurname("Mourinho").userName("JoseMorinho").managerPassword(sifre).dateOfBirth(LocalDate.of(1963, 1, 26)).build());
 		
-		managerList.add(Manager.builder().teamID(4L).managerName("Şenol").managerSurname("Güneş").managerPassword(sifre).dateOfBirth(LocalDate.of(1952, 6, 1)).build());
+		managerList.add(Manager.builder().teamID(3L).managerName("Giovanni").managerSurname("Bronckhorst").userName("GiovanniBronckhorst").managerPassword(sifre).dateOfBirth(LocalDate.of(1975, 2, 5)).build());
 		
-		managerList.add(Manager.builder().teamID(5L).managerName("Çağdaş").managerSurname("Atan").managerPassword(sifre).dateOfBirth(LocalDate.of(1980, 2, 28)).build());
+		managerList.add(Manager.builder().teamID(4L).managerName("Şenol").managerSurname("Güneş").managerPassword(sifre).userName("ŞenolGüneş").dateOfBirth(LocalDate.of(1952, 6, 1)).build());
 		
-		managerList.add(Manager.builder().teamID(6L).managerName("Fatih").managerSurname("Tekke").managerPassword(sifre).dateOfBirth(LocalDate.of(1977, 9, 9)).build());
+		managerList.add(Manager.builder().teamID(5L).managerName("Çağdaş").managerSurname("Atan").managerPassword(sifre).userName("ÇağdaşAtan").dateOfBirth(LocalDate.of(1980, 2, 28)).build());
 		
-		managerList.add(Manager.builder().teamID(7L).managerName("Alex").managerSurname("De Souza").managerPassword(sifre).dateOfBirth(LocalDate.of(1977, 9, 14)).build());
+		managerList.add(Manager.builder().teamID(6L).managerName("Fatih").managerSurname("Tekke").managerPassword(sifre).userName("FatihTekke").dateOfBirth(LocalDate.of(1977, 9, 9)).build());
 		
-		managerList.add(Manager.builder().teamID(8L).managerName("Ali").managerSurname("Çamdalı").managerPassword(sifre).dateOfBirth(LocalDate.of(1984, 8, 16)).build());
+		managerList.add(Manager.builder().teamID(7L).managerName("Alex").managerSurname("Souza").managerPassword(sifre).userName("AlexSouza").dateOfBirth(LocalDate.of(1977, 9, 14)).build());
 		
-		managerList.add(Manager.builder().teamID(9L).managerName("").managerSurname("Belözoğlu").managerPassword(sifre).dateOfBirth(LocalDate.of(1981, 1, 4)).build());
+		managerList.add(Manager.builder().teamID(8L).managerName("Ali").managerSurname("Çamdalı").managerPassword(sifre).userName("AliÇamdalı").dateOfBirth(LocalDate.of(1984, 8, 16)).build());
 		
-		managerList.add(Manager.builder().teamID(9L).managerName("İlhan").managerSurname("Palut").managerPassword(sifre).dateOfBirth(LocalDate.of(1976, 11, 12)).build());
+		managerList.add(Manager.builder().teamID(9L).managerName("İlhan").managerSurname("Palut").managerPassword(sifre).userName("İlhanPalut").dateOfBirth(LocalDate.of(1976, 11, 12)).build());
 		
-		managerList.add(Manager.builder().teamID(10L).managerName("Selçuk").managerSurname("İnan").managerPassword(sifre).dateOfBirth(LocalDate.of(1985, 2, 28)).build());
+		managerList.add(Manager.builder().teamID(10L).managerName("Selçuk").managerSurname("İnan").managerPassword(sifre).userName("Selçukİnan").dateOfBirth(LocalDate.of(1985, 2, 28)).build());
 		
-		managerList.add(Manager.builder().teamID(11L).managerName("Serkan").managerSurname("Damla").managerPassword(sifre).dateOfBirth(LocalDate.of(1974, 8, 15)).build());
+		managerList.add(Manager.builder().teamID(11L).managerName("Serkan").managerSurname("Damla").managerPassword(sifre).userName("SerkanDamla").dateOfBirth(LocalDate.of(1974, 8, 15)).build());
 		
-		managerList.add(Manager.builder().teamID(12L).managerName("Serkan").managerSurname("Damla").managerPassword(sifre).dateOfBirth(LocalDate.of(1981, 1, 4)).build());
+		managerList.add(Manager.builder().teamID(12L).managerName("Ahmet").managerSurname("Damla").managerPassword(sifre).userName("AhmetDamla").dateOfBirth(LocalDate.of(1981, 1, 4)).build());
 		
-		managerList.add(Manager.builder().teamID(13L).managerName("Arda").managerSurname("Turan").managerPassword(sifre).dateOfBirth(LocalDate.of(1987, 1, 30)).build());
+		managerList.add(Manager.builder().teamID(13L).managerName("Arda").managerSurname("Turan").managerPassword(sifre).userName("ArdaTurna").dateOfBirth(LocalDate.of(1987, 1, 30)).build());
 		
-		managerList.add(Manager.builder().teamID(14L).managerName("Sami").managerSurname("Uğurlu").managerPassword(sifre).dateOfBirth(LocalDate.of(1978, 4, 27)).build());
+		managerList.add(Manager.builder().teamID(14L).managerName("Sami").managerSurname("Uğurlu").managerPassword(sifre).userName("SamiUğurlu").dateOfBirth(LocalDate.of(1978, 4, 27)).build());
 		
-		managerList.add(Manager.builder().teamID(15L).managerName("Çağdaş").managerSurname("Atan").managerPassword(sifre).dateOfBirth(LocalDate.of(1980, 10, 27)).build());
+		managerList.add(Manager.builder().teamID(15L).managerName("Çağdaş").managerSurname("Atan").managerPassword(sifre).userName("ÇağdaşAtan").dateOfBirth(LocalDate.of(1980, 10, 27)).build());
 		
-		managerList.add(Manager.builder().teamID(16L).managerName("Thomas").managerSurname("Reis").managerPassword(sifre).dateOfBirth(LocalDate.of(1969, 6, 12)).build());
+		managerList.add(Manager.builder().teamID(16L).managerName("Thomas").managerSurname("Reis").managerPassword(sifre).userName("ThomasReis").dateOfBirth(LocalDate.of(1969, 6, 12)).build());
 		
-		managerList.add(Manager.builder().teamID(17L).managerName("Stanimir").managerSurname("Stoilov").managerPassword(sifre).dateOfBirth(LocalDate.of(1964, 6, 1)).build());
+		managerList.add(Manager.builder().teamID(17L).managerName("Stanimir").managerSurname("Stoilov").managerPassword(sifre).userName("StanimirStoilov").dateOfBirth(LocalDate.of(1964, 6, 1)).build());
 		
-		managerList.add(Manager.builder().teamID(18L).managerName("Volkan").managerSurname("Demirel").managerPassword(sifre).dateOfBirth(LocalDate.of(1977, 2, 18)).build());
+		managerList.add(Manager.builder().teamID(18L).managerName("Volkan").managerSurname("Demirel").managerPassword(sifre).userName("VolkanDemirel").dateOfBirth(LocalDate.of(1977, 2, 18)).build());
 		
-		managerList.add(Manager.builder().teamID(19L).managerName("İsmet").managerSurname("Taşdemir").managerPassword(sifre).dateOfBirth(LocalDate.of(1974, 1, 21)).build());
+		managerList.add(Manager.builder().teamID(19L).managerName("İsmet").managerSurname("Taşdemir").managerPassword(sifre).userName("İsmetTaşdemir").dateOfBirth(LocalDate.of(1974, 1, 21)).build());
 		
 		managerRepository.saveAll(managerList);
 		

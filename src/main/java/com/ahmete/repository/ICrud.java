@@ -16,10 +16,7 @@ public interface ICrud<T,ID> {
 	
 	List<T> findAll();
 	
+	Optional<T> update(T entity);
 	
-
-
-//	List<T> findByFieldNameAndValue(String fieldName,Object value);
-//
-//	List<T> findByFilledFields(T entity);
+	
 }

@@ -1,67 +1,49 @@
 package com.ahmete.utility.FixtureFunction;
 
-import com.ahmete.entity.Fixture;
-import com.ahmete.entity.League;
-import com.ahmete.entity.Match;
-import com.ahmete.entity.Statistics;
-import com.ahmete.repository.FixtureRepository;
-import com.ahmete.repository.LeagueRepository;
-import com.ahmete.repository.MatchRepository;
+import com.ahmete.entity.*;
+import com.ahmete.repository.*;
 
-import java.time.DayOfWeek;
+
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class FixtureGenerator {
 	
 	private List<Long> takimIDleri;
-	private List<DayOfWeek> gunler;
-	private static Map<Integer, List<Match>> fikstur = new HashMap<>();
-	private LocalDate sezonBaslangic;
-	private Map<Long, String> takimIDtoName;
 	private Map<Long, Statistics> takimIstatistikleri = new HashMap<>();
-	private static   FixtureRepository fixtureRepository;
-	private static   MatchRepository matchRepository;
+	private static FixtureRepository fixtureRepository;
+	private static MatchRepository matchRepository;
+	private static TeamRepository teamRepository;
+	private static StatisticsRepository statisticsRepository;
 	
 	
-	public  FixtureGenerator(List<Long> takimIDleri, LocalDate sezonBaslangic, Map<Long, String> takimIDtoName) {
+	public FixtureGenerator(List<Long> takimIDleri, LocalDate sezonBaslangic) {
 		this.takimIDleri = takimIDleri;
-		this.sezonBaslangic = sezonBaslangic;
-		this.takimIDtoName = takimIDtoName;
-		this.gunler = Arrays.asList(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY, DayOfWeek.MONDAY);
-		initializeIstatistikler();
 		this.fixtureRepository = new FixtureRepository();
 		this.matchRepository = new MatchRepository();
-
+		this.teamRepository = new TeamRepository();
+		this.statisticsRepository = new StatisticsRepository();
+		
 	}
 	
-	private void initializeIstatistikler() {
-		for (Long takimID : takimIDleri) {
-			takimIstatistikleri.put(takimID, new Statistics());
-		}
-	}
 	
 	public void generateFikstur() {
 		int takimSayisi = takimIDleri.size();
 		boolean tekMi = takimSayisi % 2 != 0;
 		
 		if (tekMi) {
-			takimIDleri.add(-1L); // BAY haftası için takım ekleniyor
+			takimIDleri.add(-1L);
 			takimSayisi++;
 		}
 		
-		LocalDate seasonStartDate = LocalDate.now();  // Sezon başlangıç tarihi
-		int totalWeeks = (takimSayisi - 1) * 2;  // Toplam hafta sayısı (ilk yarı + ikinci yarı)
-		LocalDate seasonEndDate = seasonStartDate.plusWeeks(totalWeeks);  // Sezon bitiş tarihi
+		LocalDate seasonStartDate = LocalDate.now();
+		int totalWeeks = (takimSayisi - 1) * 2;
+		LocalDate seasonEndDate = seasonStartDate.plusWeeks(totalWeeks);
 		
-		// Fixture entity'si oluşturuluyor ve kaydediliyor
-		Fixture fixture = Fixture.builder()
-		                         .leagueID(1L)  // İlgili ligin ID'sini gir
-		                         .startDate(seasonStartDate)
-		                         .endDate(seasonEndDate)
-		                         .matchIDs(new ArrayList<>()) // Boş bir liste başlat
-		                         .build();
-		fixtureRepository.save(fixture); // İlk kaydetme
+		
+		Fixture fixture = Fixture.builder().leagueID(1L).startDate(seasonStartDate).endDate(seasonEndDate).build();
+		fixtureRepository.save(fixture);
 		
 		// İlk yarı
 		for (int hafta = 0; hafta < takimSayisi - 1; hafta++) {
@@ -73,32 +55,26 @@ public class FixtureGenerator {
 				if (hafta % 2 == 0) {
 					homeTeam = takimIDleri.get(i);
 					awayTeam = takimIDleri.get(takimSayisi - 1 - i);
-				} else {
+				}
+				else {
 					homeTeam = takimIDleri.get(takimSayisi - 1 - i);
 					awayTeam = takimIDleri.get(i);
 				}
 				
-				if (homeTeam != -1 && awayTeam != -1) { // BAY hafta kontrolü
-					Match match = new Match(homeTeam, awayTeam, takimIDtoName);
-					match.setMatchDate(calculateMatchDate(hafta)); // Maç tarihi atanıyor
-					match.setLeagueID(fixture.getLeagueID()); // Lig ID'si set ediliyor
-					match.setStadiumID(1L); // Stadyum ID'si eklenebilir (örnek olarak 1L verdim)
+				if (homeTeam != -1 && awayTeam != -1) {
+					Match match = Match.builder().homeTeamID(homeTeam).awayTeamID(awayTeam)
+					                   .matchDate(calculateMatchDate(hafta)).leagueID(fixture.getLeagueID())
+					                   .stadiumID(1L).fixtureID(fixture.getId()).build();
 					
-					matchRepository.save(match); // Her maçı kaydet
+					matchRepository.save(match);
 					matchList.add(match);
-					
-					// Fixture'daki matchIDs listesine match ID'sini ekle
-					fixture.getMatchIDs().add(match.getId());
 				}
 			}
 			
-			// Fikstüre haftalık maçlar ekleniyor
-			fikstur.put(hafta + 1, matchList);
-			// Takımların sırası değiştirilerek rotasyon sağlanıyor
 			takimIDleri.add(1, takimIDleri.remove(takimIDleri.size() - 1));
 		}
 		
-		// İkinci yarı (takımlar tersine çevrilmiş şekilde oynar)
+		
 		for (int hafta = 0; hafta < takimSayisi - 1; hafta++) {
 			List<Match> matchList = new ArrayList<>();
 			
@@ -108,118 +84,114 @@ public class FixtureGenerator {
 				if (hafta % 2 == 0) {
 					homeTeam = takimIDleri.get(takimSayisi - 1 - i);
 					awayTeam = takimIDleri.get(i);
-				} else {
+				}
+				else {
 					homeTeam = takimIDleri.get(i);
 					awayTeam = takimIDleri.get(takimSayisi - 1 - i);
 				}
 				
-				if (homeTeam != -1 && awayTeam != -1) { // BAY hafta kontrolü
-					Match match = new Match(homeTeam, awayTeam, takimIDtoName);
-					match.setMatchDate(calculateMatchDate(hafta + takimSayisi)); // Maç tarihi atanıyor
-					match.setLeagueID(fixture.getLeagueID()); // Lig ID'si set ediliyor
-					match.setStadiumID(1L); // Stadyum ID'si eklenebilir
+				if (homeTeam != -1 && awayTeam != -1) {
+					Match match = Match.builder().homeTeamID(homeTeam).awayTeamID(awayTeam)
+					                   .matchDate(calculateMatchDate(hafta + takimSayisi))
+					                   .leagueID(fixture.getLeagueID()).stadiumID(1L).fixtureID(fixture.getId())
+					                   .build();
 					
-					matchRepository.save(match); // Her maçı kaydet
+					matchRepository.save(match);
 					matchList.add(match);
-					
-					// Fixture'daki matchIDs listesine match ID'sini ekle
-					fixture.getMatchIDs().add(match.getId());
 				}
 			}
 			
-			// Fikstüre haftalık maçlar ekleniyor
-			fikstur.put(hafta + takimSayisi, matchList);
-			// Takımların sırası değiştirilerek rotasyon sağlanıyor
+			
 			takimIDleri.add(1, takimIDleri.remove(takimIDleri.size() - 1));
 		}
-		
-		// Maç tarihlerini güncelleme fonksiyonu
-		gunleriAta();
 	}
 	
-	// Haftaya göre maç tarihi hesaplama fonksiyonu
+	
 	private LocalDate calculateMatchDate(int hafta) {
-		LocalDate startDate = LocalDate.now(); // Başlangıç tarihini belirleyebilirsiniz
-		return startDate.plusWeeks(hafta); // Her hafta bir hafta ekleniyor
+		LocalDate startDate = LocalDate.now();
+		return startDate.plusWeeks(hafta);
 	}
 	
+
 	
-	private void gunleriAta() {
+	public void makeMatch() {
+		List<Match> matchList = matchRepository.findAll();
 		Random random = new Random();
-		for (int hafta = 1; hafta <= fikstur.size(); hafta++) {
-			List<Match> matches = fikstur.get(hafta);
-			Collections.shuffle(matches);
-			for (Match match : matches) {
-				DayOfWeek gun = gunler.get(random.nextInt(gunler.size()));
-				LocalDate matchDate = sezonBaslangic.plusWeeks(hafta - 1).with(gun);
-				match.setMatchDate(matchDate);
-			}
-			matches.sort(Comparator.comparing(Match::getMatchDate));
-		}
-	}
-	
-	public void puanTablosunuGuncelle() {
-		Random random = new Random();
-		for (List<Match> matchList : fikstur.values()) {
-			for (Match match : matchList) {
-				int homeGoal = random.nextInt(5);
-				int awayGoal = random.nextInt(5);
-				
-				Long homeTeam = match.getHomeTeamID();
-				Long awayTeam = match.getAwayTeamID();
-				
-				if (homeGoal > awayGoal) {
-					takimIstatistikleri.get(homeTeam).addWin();
-					takimIstatistikleri.get(awayTeam).addLoss();
-				}
-				else if (awayGoal > homeGoal) {
-					takimIstatistikleri.get(awayTeam).addWin();
-					takimIstatistikleri.get(homeTeam).addLoss();
-				}
-				else {
-					takimIstatistikleri.get(homeTeam).addDraw();
-					takimIstatistikleri.get(awayTeam).addDraw();
-				}
-				
-				takimIstatistikleri.get(homeTeam).addGoals(homeGoal, awayGoal);
-				takimIstatistikleri.get(awayTeam).addGoals(awayGoal, homeGoal);
-			}
-		}
-	}
-	
-	public void puanTablosunuYazdir() {
-		System.out.println("Puan Tablosu:");
-		System.out.printf("%-20s %-3s %-3s %-3s %-3s %-3s %-3s %-3s%n", "Takım İsmi", "G", "B", "M", "AG", "YG", "AV",
-		                  "Puan");
 		
-		takimIstatistikleri.entrySet().stream().sorted((e1, e2) -> {
-			int puanKarsilastirma = Integer.compare(e2.getValue().getPoints(), e1.getValue().getPoints());
-			if (puanKarsilastirma != 0) {
-				return puanKarsilastirma;
-			}
+		for (Match match : matchList) {
 			
-			return Integer.compare(e2.getValue().getGoalDifference(), e1.getValue().getGoalDifference());
-		}).forEach(entry -> {
-			String takimIsmi = takimIDtoName.get(entry.getKey());
-			Statistics statistics = entry.getValue();
-			System.out.printf("%-20s %-3d %-3d %-3d %-3d %-3d %-3d %-3d%n", takimIsmi, statistics.getWins(),
-			                  statistics.getDraws(), statistics.getLosses(), statistics.getGoalsScored(),
-			                  statistics.getGoalsConceded(), statistics.getGoalDifference(), statistics.getPoints());
-		});
-	}
-	
-	public void fiksturuYazdir() {
-		for (Map.Entry<Integer, List<Match>> entry : fikstur.entrySet()) {
-			Integer hafta = entry.getKey();
-			List<Match> matchList = entry.getValue();
-			System.out.println("Hafta: " + hafta);
-			for (Match match : matchList) {
-				System.out.println(match.toStringFikstur());
-			}
-			System.out.println();
+			int homeGoals = random.nextInt(6);
+			int awayGoals = random.nextInt(6);
+			
+			match.setHomeTeamScore(homeGoals);
+			match.setAwayTeamScore(awayGoals);
+			
+		matchRepository.update(match);
+			
+			
+			updateTeamStatistics(match.getHomeTeamID(), match.getAwayTeamID(), homeGoals, awayGoals,match.getLeagueID());
 		}
 		
 	}
 	
+	private void updateTeamStatistics(Long homeTeamID, Long awayTeamID, int homeGoals, int awayGoals,Long leagueID) {
+		Statistics homeTeamStat = statisticsRepository.findById(homeTeamID)
+		                                           .orElse(Statistics.builder()
+		                                                             .teamID(homeTeamID)
+				                                                     .leagueID(leagueID)
+		                                                             .build());
+		Statistics awayTeamStat = statisticsRepository.findById(awayTeamID)
+		                                           .orElse(Statistics.builder()
+		                                                             .teamID(awayTeamID)
+		                                                             .leagueID(leagueID)
+		                                                             .build());
+		
+		if (homeGoals > awayGoals) {
+			homeTeamStat.addWin();
+			awayTeamStat.addLoss();
+		}
+		else if (awayGoals > homeGoals) {
+			awayTeamStat.addWin();
+			homeTeamStat.addLoss();
+		}
+		else {
+			homeTeamStat.addDraw();
+			awayTeamStat.addDraw();
+		}
+		
+		homeTeamStat.addGoals(homeGoals, awayGoals);
+		awayTeamStat.addGoals(awayGoals, homeGoals);
+		
+		
+		statisticsRepository.update(homeTeamStat);
+		statisticsRepository.update(awayTeamStat);
+		
+	}
+	
+	public void printLeagueTable() {
+		List<Statistics> statisticsList = statisticsRepository.findAll();
+		Map<Long, String> teamNames = teamRepository.findAll().stream()
+		                                            .collect(Collectors.toMap(Team::getId, Team::getTeamName)); // Assuming
+		
+		statisticsList.sort(Comparator.comparingInt(Statistics::getPoints)
+		                              .thenComparingInt(Statistics::getGoalDifference).reversed());
+		
+		System.out.printf("%-20s %-5s %-5s %-5s %-5s %-5s %-5s %-5s%n",
+		                  "Takım İsmi", "G", "B", "M", "AG", "YG", "AV", "Puan");
+		System.out.println("------------------------------------------------------------------");
+		
+		for (Statistics stats : statisticsList) {
+			String teamName = teamNames.get(stats.getTeamID());
+			System.out.printf("%-20s %-5d %-5d %-5d %-5d %-5d %-5d %-5d%n",
+			                  teamName,
+			                  stats.getWins(),
+			                  stats.getDraws(),
+			                  stats.getLosses(),
+			                  stats.getGoalsScored(),
+			                  stats.getGoalsConceded(),
+			                  stats.getGoalDifference(),
+			                  stats.getPoints());
+		}
+	}
 	
 }

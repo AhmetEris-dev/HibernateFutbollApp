@@ -23,12 +23,19 @@ public class Statistics extends BaseEntity {
 	private Integer goalsScored = 0;
 	@Column(name="goalsconceded")
 	private Integer goalsConceded = 0;
-	private Integer wins = 0; // Başlangıç değeri
-	private Integer losses = 0; // Başlangıç değeri
-	private Integer draws = 0; // Başlangıç değeri
+	private Integer wins = 0;
+	private Integer losses = 0;
+	private Integer draws = 0;
+	@Column(name="team_id")
+	private Long teamID;
+	@Column(name="league_id")
+	private Long leagueID;
 	
 	public void addWin() {
-		wins++;
+		if (this.wins == null) {
+			this.wins = 0;
+		}
+		this.wins++;
 	}
 	
 	
@@ -38,14 +45,26 @@ public class Statistics extends BaseEntity {
 	
 	
 	public void addDraw() {
+		if (this.draws == null) {
+			this.draws = 0;
+		}
 		this.draws++;
 	}
 	
 	public void addLoss() {
+		if (this.losses == null) {
+			this.losses = 0;
+		}
 		this.losses++;
 	}
 	
 	public void addGoals(int scored, int conceded) {
+		if (this.goalsScored == null) {
+			this.goalsScored = 0;
+		}
+		if (this.goalsConceded == null) {
+			this.goalsConceded = 0;
+		}
 		this.goalsScored += scored;
 		this.goalsConceded += conceded;
 	}

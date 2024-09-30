@@ -9,12 +9,11 @@ import com.ahmete.enums.EColours;
 import com.ahmete.enums.EPosition;
 import com.ahmete.enums.ERegion;
 import com.ahmete.gui.MainGUI;
+import com.ahmete.gui.MatchGUI;
+import com.ahmete.gui.TransferGUI;
 import com.ahmete.model.ControllerModel;
 import com.ahmete.model.TeamModel;
-import com.ahmete.repository.LeagueRepository;
-import com.ahmete.repository.ManagerRepository;
-import com.ahmete.repository.PlayerRepository;
-import com.ahmete.repository.TeamRepository;
+import com.ahmete.repository.*;
 import com.ahmete.service.LeagueService;
 import com.ahmete.service.PlayerService;
 import com.ahmete.utility.DataGenerator;
@@ -34,11 +33,25 @@ public class Runner {
 		TeamRepository teamRepository = new TeamRepository();
 		DataGenerator dataGenerator = new DataGenerator();
 //		dataGenerator.createGenerateData();
-		MainGUI.startApplication();
-		
 
-	
+		MainGUI.startApplication();
+//		MatchGUI.createFixture();
+
+//		MatchGUI.fiksturuYazdir();
+		
+		List<Long> takimIDleri = teamRepository.findAllTeamIds();
+		FixtureGenerator fixtureGenerator =new FixtureGenerator(takimIDleri, LocalDate.of(2024, 10, 8));
+		
+//		fixtureGenerator.makeMatch();
+//		fixtureGenerator.printLeagueTable();
+//		for (EPosition position:EPosition.values()){
+//			System.out.println(position.ordinal()+1+" - "+position.name());
+//		}
+		
+//		TransferGUI.oyuncuSec();
+//		TransferGUI.oyuncuAra();
+//		TransferGUI.teklifYap();
 	
 	}
 	
-	}
+}

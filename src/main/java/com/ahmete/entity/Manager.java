@@ -28,9 +28,9 @@ public class Manager extends BaseEntity {
 	private String managerSurname;
 	@Column(name="managerpassword")
 	private String managerPassword;
-	@Temporal(TemporalType.DATE)
 	@Column(name="dateofbirth")
 	private LocalDate dateOfBirth;
-
+	@Column(name="username")
+	private String userName;
 	
 }

@@ -1,5 +1,6 @@
 package com.ahmete.service;
 
+import com.ahmete.dto.request.ManagerLoginRequestDTO;
 import com.ahmete.dto.request.ManagerSaveRequestDto;
 import com.ahmete.dto.response.ManagerResponseDto;
 import com.ahmete.entity.Manager;
@@ -52,11 +53,15 @@ public class ManagerService extends ServiceManager<Manager,Long> {
 		}
 		return Optional.of(managerResponseDto);
 	}
-	public Optional<Manager> findManagerByIdAndPassword(Long id, String password){
-		return managerRepository.findManagerByIdAndPassword(id, password);
+	public Optional<Manager> findManagerUserNameAndPassword(ManagerLoginRequestDTO dto){
+		return managerRepository.findManagerUserNameAndPassword(dto);
 	}
 	
 	public Optional<Long> findTeamIdByManagerId(Long managerId){
 		return managerRepository.findTeamIdByManagerId(managerId);
+	}
+	
+	public Optional<Manager> findByTeamId(Long secilenTakimID) {
+		return managerRepository.findByTeamId(secilenTakimID);
 	}
 }

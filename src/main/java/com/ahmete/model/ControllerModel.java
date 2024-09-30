@@ -14,6 +14,7 @@ public class ControllerModel {
 	public final StadiumController stadiumController = new StadiumController();
 	public final StatisticsController statisticsController = new StatisticsController();
 	public final TeamController teamController = new TeamController();
+	public final TransferOfferController transferOfferController = new TransferOfferController();
 	
 	
 	public ControllerModel() {
