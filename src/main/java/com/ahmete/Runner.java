@@ -17,7 +17,7 @@ public class Runner {
 		DataGenerator dataGenerator = new DataGenerator();
 //		dataGenerator.createGenerateData();
 
-//		MainGUI.startApplication();
+		MainGUI.startApplication();
 //		MatchGUI.createFixture();
 
 //		MatchGUI.fiksturuYazdir();
@@ -35,7 +35,7 @@ public class Runner {
 //		TransferGUI.oyuncuAra();
 //		TransferGUI.teklifYap();
 		
-		new ContractOfferRepository().findByReceiverTeamID(takimIDleri.get(0));
+	
 	
 	}
 	

@@ -1,7 +1,6 @@
 package com.ahmete.repository;
 
 import com.ahmete.entity.Manager;
-import com.ahmete.entity.Player;
 import com.ahmete.entity.TransferOffer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;

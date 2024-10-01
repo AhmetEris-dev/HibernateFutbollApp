@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class ManagerGUI {
 	
 	private static ControllerModel controllerModel;
-	private static Optional<Manager> activeManager = Optional.empty();  // aktif menajer bilgisini burada tutuyoruz
+	public static Optional<Manager> activeManager = Optional.empty();  // aktif menajer bilgisini burada tutuyoruz
 	private static final Scanner scanner = new Scanner(System.in);
 	private static final ManagerRepository managerRepository = new ManagerRepository();
 	private static final TeamRepository teamRepository = new TeamRepository();
@@ -95,7 +95,6 @@ public class ManagerGUI {
 		System.out.println("2-Takimimin futbolcularımı goruntuleyin");
 		System.out.println("3-Diğer takimlarin özet bilgilerini goruntuleyin");
 		System.out.println("4-Transfer İşlemleri");
-		System.out.println("5-Sözleşme İşlemleri");
 		System.out.println("0-Cıkıs yap");
 		System.out.print("seciminiz: ");
 		int opt = scanner.nextInt();
@@ -123,10 +122,6 @@ public class ManagerGUI {
 			}
 			case 4:{
 				TransferOfferGUI.transferGui(controllerModel, activeManager);
-				break;
-			}
-			case 5:{
-//				ContractOfferGUI.contractGui(controllerModel,activeManager);
 				break;
 			}
 			case 0: {

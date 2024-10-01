@@ -16,7 +16,6 @@ public class TransferOfferController {
 	
 	public TransferOffer save(TransferOffer transferOffer) {
 		try {
-			System.out.println("Controller TransferOffer başarıyla kaydedildi.");
 			return transferOfferService.save(transferOffer);
 			
 		} catch (Exception e) {

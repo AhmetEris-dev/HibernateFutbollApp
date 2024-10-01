@@ -1,11 +1,13 @@
 package com.ahmete.gui;
 
+import com.ahmete.entity.ContractOffer;
 import com.ahmete.entity.Manager;
 import com.ahmete.entity.Player;
 import com.ahmete.entity.TransferOffer;
 import com.ahmete.enums.EOfferResponse;
 import com.ahmete.enums.EPosition;
 import com.ahmete.model.ControllerModel;
+import com.ahmete.repository.ContractOfferRepository;
 import com.ahmete.repository.PlayerRepository;
 import com.ahmete.repository.TransferOfferRepository;
 
@@ -17,6 +19,7 @@ public class TransferOfferGUI {
 	private static ControllerModel controllerModel = ControllerModel.getInstance();
 	private static Optional<Manager> activeManager = Optional.empty();
 	private static final PlayerRepository playerRepository = new PlayerRepository();
+	private static final ContractOfferRepository contractOfferRepository = new ContractOfferRepository();
 	private static final Scanner scanner = new Scanner(System.in);
 	private static final TransferOfferRepository transferOfferRepository = new TransferOfferRepository();
 	
@@ -82,8 +85,9 @@ public class TransferOfferGUI {
 			default: {
 				System.out.println("Geçersiz bir seçim yaptınız.");
 			}
+			return transferOfferList.size();
 		}
-		return transferOfferList.size();
+		return opt;
 	}
 	
 	private static void gelenOyuncuTeklifleriGoruntule() {
@@ -119,32 +123,35 @@ public class TransferOfferGUI {
 		if (playerOptional.isPresent()) {
 			Player player = playerOptional.get();
 			System.out.print("Teklif miktarini giriniz: ");
-			Long offerMoney=scanner.nextLong();scanner.nextLine();
+			Long offerMoney = scanner.nextLong();
+			scanner.nextLine();
 			
-			TransferOffer transferOffer=TransferOffer.builder()
-			                                         .message("Oyuncu için teklif")
-					.offerMoney(offerMoney)
-					.managerID(activeManager.get().getId())
-					.offeringTeamID(activeManager.get().getTeamID())
-					.receiverTeamID(player.getTeamID())
-					.playerID(player.getId())
-					.response(EOfferResponse.ON_HOLD)
-					.build();
+			TransferOffer transferOffer = TransferOffer.builder()
+			                                           .message("Oyuncu için teklif")
+			                                           .offerMoney(offerMoney)
+			                                           .managerID(activeManager.get().getId())
+			                                           .offeringTeamID(activeManager.get().getTeamID())
+			                                           .receiverTeamID(player.getTeamID())
+			                                           .playerID(player.getId())
+			                                           .response(EOfferResponse.ON_HOLD)
+			                                           .build();
 			controllerModel.transferOfferController.save(transferOffer);
-			System.out.println("Teklifiniz başarıyla gercekleştirildi: "+player.getName()+" için "+offerMoney+" € ");
+			
+			System.out.println("Teklifiniz başarıyla gerçekleştirildi: " + player.getName() + " için " + offerMoney + " € ");
 		}
 	}
 	
-	public static void teklifeGeriDonusYap(){
+	public static void teklifeGeriDonusYap() {
 		if (activeManager.isEmpty()) {
 			System.out.println("Aktif bir menajer bulunmamaktadır ");
 			return;
 		}
+		
 		Long teamID = activeManager.get().getTeamID();
 		List<TransferOffer> offerList = transferOfferRepository.findAll().stream()
-		                                                       .filter(transferOffer -> transferOffer.getReceiverTeamID()
-		                                                                                             .equals(teamID))
+		                                                       .filter(transferOffer -> transferOffer.getReceiverTeamID().equals(teamID))
 		                                                       .toList();
+		
 		if (offerList.isEmpty()) {
 			System.out.println("Takımınıza yapılmış teklif bulunmamaktadır.");
 			return;
@@ -153,39 +160,45 @@ public class TransferOfferGUI {
 		System.out.println("Gelen teklifler: ");
 		for (int i = 0; i < offerList.size(); i++) {
 			Player player = playerRepository.findById(offerList.get(i).getPlayerID()).orElse(null);
-			String playerName = player != null ? player.getName() + " " + player.getSurname() : "Bilinmeyen Oyuncu";
-			System.out.println((i+1) +" - "+ playerName + " için "+ offerList.get(i).getOfferMoney()+" € teklif");
+			String playerName = (player != null) ? player.getName() + " " + player.getSurname() : "Bilinmeyen Oyuncu";
+			System.out.println((i + 1) + " - " + playerName + " için " + offerList.get(i).getOfferMoney() + " € teklif");
 		}
+		
 		System.out.print("Cevap vermek istediğiniz teklifi numarasına göre seciniz: ");
-		int secim= scanner.nextInt();scanner.nextLine();
-		if (secim<0||secim>=offerList.size()) {
-			System.out.println("Gecersiz secim yaptınız...");
+		int secim = scanner.nextInt();
+		scanner.nextLine();
+		
+		if (secim <= 0 || secim > offerList.size()) {
+			System.out.println("Geçersiz seçim yaptınız...");
 			return;
 		}
-		TransferOffer transferOffer = offerList.get(secim - 1);
+		
+		TransferOffer selectedOffer = offerList.get(secim - 1);
+		
 		System.out.println("1-Teklifi kabul et");
 		System.out.println("2-Teklifi reddet");
-		int geriDonusSecimi=scanner.nextInt();scanner.nextLine();
+		int geriDonusSecimi = scanner.nextInt();
+		scanner.nextLine();
 		
-		switch (geriDonusSecimi){
-			case 1:{
-				transferOffer.setResponse(EOfferResponse.ACCEPT);
+		switch (geriDonusSecimi) {
+			case 1 -> {
+				selectedOffer.setResponse(EOfferResponse.ACCEPT);
 				System.out.println("Teklif kabul edildi.");
-				break;
 			}
-			case 2:{
-				transferOffer.setResponse(EOfferResponse.REFUSE);
+			case 2 -> {
+				selectedOffer.setResponse(EOfferResponse.REFUSE);
 				System.out.println("Teklif reddedildi.");
-				break;
 			}
-			default:{
-				System.out.println("Gecersiz secim");
+			default -> {
+				System.out.println("Geçersiz seçim");
 				return;
 			}
 		}
-		transferOfferRepository.update(transferOffer);
-		System.out.println("İşleminiz başarıyla gercekleştirildi");
+		
+		transferOfferRepository.update(selectedOffer);
+		System.out.println("İşleminiz başarıyla gerçekleştirildi.");
 	}
+	
 	
 	public static Optional<Player> oyuncuSec() {
 		System.out.println("Oyuncuları goruntulemek için mevki seciniz");
