@@ -15,6 +15,7 @@
         <class>com.ahmete.entity.Team</class>
         <class>com.ahmete.entity.Fixture</class>
         <class>com.ahmete.entity.TransferOffer</class>
+        <class>com.ahmete.entity.ContractOffer</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver"

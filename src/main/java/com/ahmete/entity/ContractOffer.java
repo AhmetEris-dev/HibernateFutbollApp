@@ -1,5 +1,6 @@
 package com.ahmete.entity;
 
+import com.ahmete.enums.EOfferResponse;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -15,10 +16,22 @@ public class ContractOffer extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name="offeredamount")
-	private Long offeredAmount;
+	@Column(name="offermoney")
+	private Long offerMoney;
+	@Column(name="transferoffer_id")
+	private Long transferOfferID;
 	@Column(name="player_id")
 	private Long playerID;
-	@Column(name="offeringteam_id")
-	private Long offeringTeamID;
+	@Enumerated(EnumType.STRING)
+	private EOfferResponse offerResponse;
+	@Column(name="contractdecision")
+	private boolean contractDecision;
+	
+	public void decisionContract() {
+		if (offerResponse==EOfferResponse.ACCEPT){
+			this.contractDecision = true;
+		}else{
+			this.contractDecision = false;
+		}
+	}
 }

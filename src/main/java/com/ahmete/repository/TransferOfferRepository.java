@@ -33,6 +33,24 @@ public class TransferOfferRepository extends RepositoryManager<TransferOffer,Lon
 		finally {
 			em.close();
 		}
-		
+	}
+	
+	public List<TransferOffer> findByReceiverTeamID(Long receiverTeamID) {
+		EntityManager em = getEntityManager();
+		try {
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<TransferOffer> cq = cb.createQuery(TransferOffer.class);
+			Root<TransferOffer> root = cq.from(TransferOffer.class);
+			
+			cq.select(root).where(cb.equal(root.get("receiverTeamID"), receiverTeamID));
+			return em.createQuery(cq).getResultList();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally {
+			em.close();
+		}
 	}
 }
